@@ -19,7 +19,7 @@ $this->title = 'My Yii Application';
                 ],
                 [
                     'attribute' => 'stand.name',
-//                  'contentOptions' => ['style' => 'background-color: transparent !important;'],
+                    'contentOptions' => ['style' => 'background-color: transparent !important;'],
                     'width' => '220px',
                     'group' => true,
                     'subGroupOf' => 1,
@@ -52,7 +52,7 @@ $this->title = 'My Yii Application';
                     'group' => true,
                     'subGroupOf' => 1,
                     'header' => 'Среднее <br> значение <br> за 2018г.',
-//                  'contentOptions' => ['style' => 'background-color: transparent !important;'],
+                    'contentOptions' => ['style' => 'background-color: transparent !important;'],
                 ],
                 [
                     'attribute' => 'stand.measure_unit',
@@ -60,7 +60,7 @@ $this->title = 'My Yii Application';
                     'group' => true,
                     'subGroupOf' => 1,
                     'header' => 'Ед. <br> изм.',
-//                  'contentOptions' => ['style' => 'background-color: transparent !important;'],
+                    'contentOptions' => ['style' => 'background-color: transparent !important;'],
                 ],
                 [
                     'attribute' => 'month',
@@ -70,8 +70,24 @@ $this->title = 'My Yii Application';
                 ],
                 [
                     'attribute' => 'goal',
+                    'value' => function ($model) {
+                        if ($model->goal != null) {
+                            return $model->goal;
+                        } else {
+                            return '';
+                        }
+                    }
                 ],
-                'required',
+                [
+                    'attribute' => 'required',
+                    'value' => function ($model) {
+                        if ($model->required != null) {
+                            return $model->required;
+                        } else {
+                            return '';
+                        }
+                    }
+                ],
                 [
                     'attribute' => 'actual',
                     'contentOptions' => function($model) {

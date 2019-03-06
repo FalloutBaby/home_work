@@ -79,12 +79,18 @@ class Results extends \yii\db\ActiveRecord
         foreach ($query as $value) {
             is_null($value['actual']) ?  true : $actual[] = $value['actual'];
         }
+        if(is_null($actual)) {
+            return '-';
+        }
         $average = array_sum($actual)/count($actual);
         return $average;
     }
     
     public function getColor($actual, $required)
     {
+        if(!$actual) {
+            return 'white';
+        }
         if($actual >= $required) {
             $color = $actual > $required ? 'info table-info' : 'success table-success';
         } elseif (is_null ($actual)) {
@@ -101,6 +107,9 @@ class Results extends \yii\db\ActiveRecord
         $query = $this->find()->where('dept_id = :dept_id')->andWhere('stand_id = :stand_id')->addParams([':dept_id' => $deptId, ':stand_id' => $standId])->asArray()->select('actual, goal, required')->all();
         foreach ($query as $value) {
             is_null($value['actual']) ? $actual : $actual = $value[$current];
+        }
+        if(is_null($actual)) {
+            return '-';
         }
         return $actual;
     }
@@ -127,6 +136,11 @@ class Results extends \yii\db\ActiveRecord
     
     public function getReached($deptId, $standId)
     {
-       return round($this->getCurrentMonth($deptId, $standId, 'required')/$this->getCurrentMonth($deptId, $standId, 'goal'), 2);
+        $required = $this->getCurrentMonth($deptId, $standId, 'required');
+        $goal = $this->getCurrentMonth($deptId, $standId, 'goal');
+        if($required == '-' || $goal == '-') {
+            return '-';
+        }
+       return round($required/$goal, 2);
     }
 }

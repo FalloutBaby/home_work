@@ -52,7 +52,7 @@ class ResultsFilter extends Results {
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => '48',
+                'pageSize' => '24',
             ]
         ]);
 
